@@ -25,7 +25,7 @@ RUN mv phantomjs-1.9.2-linux-x86_64/bin/phantomjs /usr/bin/phantomjs
 
 # download project and put it in the right folder
 RUN (cd /home/app/ && \
-        git clone -q -b master_keywords https://mlushpenko:maxfreedom12369874@github.com/mikeg250/sitepicks3.git && \                          
+        git clone -q -b master_keywords https://[login]:[password]@github.com/mikeg250/sitepicks3.git && \                          
         mkdir -p /home/app/apps/sitepicks/current/ && \
 	cp -r sitepicks3/* /home/app/apps/sitepicks/current/ && \                               
         rm -rf sitepicks3/)                                                                                                                    
