@@ -1,5 +1,7 @@
 #!/bin/sh
-cd /home/app/apps/sitepicks/current 
-rake db:migrate RAILS_ENV=production
-rake db:seed RAILS_ENV=production
-rake sunspot:solr:reindex RAILS_ENV=production 
+cd /home/app/apps/sitepicks/current
+export RAILS_ENV=production 
+rake db:migrate
+rake db:seed
+rake sunspot:solr:reindex
+rake assets:precompile

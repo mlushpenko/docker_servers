@@ -39,9 +39,10 @@ RUN (cd /home/app/apps/sitepicks/current/ &&\
 RUN mkdir -p /etc/my_init.d
 ADD prepare.sh /etc/my_init.d/prepare.sh
 
-# update yml files with proper hosts to connect to db and solr
+# update yml files with proper hosts to connect to db, cache and solr
 RUN (sed -i "s/production:/production:\n  host: <%= ENV['DB_PORT_5432_TCP_ADDR'] %>/g" /home/app/apps/sitepicks/current/config/database.yml && \                         
-     sed -i "s/localhost/<%= ENV['SOLR_PORT_8080_TCP_ADDR'] %>/g" /home/app/apps/sitepicks/current/config/sunspot.yml)                
+     sed -i "s/localhost/<%= ENV['SOLR_PORT_8080_TCP_ADDR'] %>/g" /home/app/apps/sitepicks/current/config/sunspot.yml && \
+     sed -i "s/:dalli_store,/:dalli_store, ENV['CACHE_PORT_11211_TCP_ADDR'] + \":\" + ENV['CACHE_PORT_11211_TCP_PORT'],/g" /home/app/apps/sitepicks/current/config/environments/production.rb)                
 
 #remove default nginx app https://github.com/phusion/passenger-docker/issues/33
 RUN rm -rf /etc/nginx/sites-enabled/default
