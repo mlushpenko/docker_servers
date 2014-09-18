@@ -44,8 +44,15 @@ RUN (sed -i "s/production:/production:\n  host: <%= ENV['DB_PORT_5432_TCP_ADDR']
      sed -i "s/localhost/<%= ENV['SOLR_PORT_8080_TCP_ADDR'] %>/g" /home/app/apps/sitepicks/current/config/sunspot.yml && \
      sed -i "s/:dalli_store,/:dalli_store, ENV['CACHE_PORT_11211_TCP_ADDR'] + \":\" + ENV['CACHE_PORT_11211_TCP_PORT'],/g" /home/app/apps/sitepicks/current/config/environments/production.rb)                
 
-#remove default nginx app https://github.com/phusion/passenger-docker/issues/33
+# remove default nginx app https://github.com/phusion/passenger-docker/issues/33
 RUN rm -rf /etc/nginx/sites-enabled/default
+
+# Add SSl
+RUN mkdir -p /etc/nginx/ssl
+ADD /adsamerica /etc/nginx/ssl/adsamerica 
+ADD /sitelikes /etc/nginx/ssl/sitelikes 
+ADD /sitepicks /etc/nginx/ssl/sitepicks
+ADD /sites /etc/nginx/ssl/sites
 
 # config files for nginx to run our app
 ADD main_part.conf /etc/nginx/main.d/main_part.conf
